@@ -119,7 +119,7 @@ pri(total_href, "total_href")
 first_file = anchor_tags__filtered[0]
 pri(first_file, "first_file")
 
-filename = first_file.contents[0]
+filename = first_file.contents[0].text
 pri(filename, "filename")
 
 
