@@ -2,6 +2,14 @@ import requests
 import selenium
 from lxml import html
 
+
+# function to output name of variable and what the variable is
+def pri(var_name, str_var_name):
+    
+    print(f"\n\n   {str_var_name} ...")
+    print(var_name)
+
+
 # flight dynamics/lecture notes
 ##url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2050170_1'
 
@@ -105,8 +113,14 @@ print(href)
 
 base_href = "https://bb.imperial.ac.uk"
 total_href = base_href + href
-print("\n\n   total_href ...")
-print(total_href)
+pri(total_href, "total_href")
+
+
+first_file = anchor_tags__filtered[0]
+pri(first_file, "first_file")
+
+filename = first_file.contents[0]
+pri(filename, "filename")
 
 
 
