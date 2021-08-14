@@ -66,24 +66,58 @@ import pickle
 with open('html_data.pickle', 'rb') as my_file:
     [html] = pickle.load(my_file)
 
-print("\n   html ...")
-print(html)
+##print("\n   html ...")
+##print(html)
 
 
 ##r = requests.get(url, allow_redirects=True)
 ##
 from bs4 import BeautifulSoup
 
-print("\n\n   Using beautiful soup...")
 soup = BeautifulSoup(html, 'html.parser')
-print(soup.prettify())
+##print("\n\n   Using beautiful soup...")
+##print(soup.prettify())
 
 print("\n\n   soup.find_all ...")
 ##print(soup.find_all("a"))
 
-for i in soup.find_all("a"):
+anchor_tags = soup.find_all("a")
+
+##for i in anchor_tags:
+##    print(i)
+##    print()
+
+
+anchor_tags__no_class = soup.find_all("a", attrs={'class': None})
+
+# compare lengths of anchor_tags and anchor_tags__no_class
+print(f"anchor_tags has length of: {len(anchor_tags)}")
+print(f"anchor_tags__no_class has length of: {len(anchor_tags__no_class)}")
+
+print("\n   Output anchor_tags__no_class ... \n")
+# output anchor_tags__no_class
+##for i in anchor_tags__no_class:
+##    print(i)
+##    print()
+
+
+##anchor_tags__filtered = soup.find_all( "a", attrs={'class': None, 'onclick': True} )
+##for i in anchor_tags__filtered:
+##    print(i)
+##    print()
+
+
+anchor_tags__filtered = soup.find_all( "a", attrs={'class': False, 'onclick': True, 'id': False} )
+for i in anchor_tags__filtered:
     print(i)
     print()
+
+
+# compare lengths of anchor_tags and anchor_tags__no_class
+print(f"anchor_tags has length of: {len(anchor_tags)}")
+print(f"anchor_tags__no_class has length of: {len(anchor_tags__no_class)}")
+print(f"anchor_tags__filtered has length of: {len(anchor_tags__filtered)}")
+
 
 
 # how to connect the extracted url to the base url of blackboard
