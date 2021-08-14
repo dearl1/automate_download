@@ -43,11 +43,13 @@ driver = webdriver.Chrome(executable_path=r'C:\Users\danny\Downloads\chromedrive
 ##url = 'https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1'
 url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1'
 driver.get(url)
-time.sleep(15)
+
+##time.sleep(15)
+continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
 
 driver.get(url)
 
-time.sleep(2)
+##time.sleep(2)
 
 html = driver.page_source
 
@@ -59,11 +61,10 @@ print(html)
 ##from bs4 import BeautifulSoup
 ##
 ##print("\n\n   Using beautiful soup...")
-####soup = BeautifulSoup(r.content, 'html.parser')
-##soup = BeautifulSoup(r.content, 'lxml')
+##soup = BeautifulSoup(html, 'html.parser')
 ##print(soup.prettify())
 ##
-##print("\n   soup.find_all ...")
+##print("\n\n   soup.find_all ...")
 ##print(soup.find_all("a"))
 
 
