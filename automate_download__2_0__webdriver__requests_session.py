@@ -51,7 +51,7 @@ if 1:
 
     html = driver.page_source
 
-    pri(html, "html")
+##    pri(html, "html")
 
 # end of: seleneium
 
@@ -119,38 +119,43 @@ if 1:
     print(f"anchor_tags__filtered has length of: {len(anchor_tags__filtered)}")
 
 
-    # get the first href
-    href = anchor_tags__filtered[0]["href"]
-    print("\n\n   Output the href we have found ...")
-    print(href)
-
     base_href = "https://bb.imperial.ac.uk"
-    total_href = base_href + href
-    pri(total_href, "total_href")
+
+    print("\n\n   Starting: download files")
+    # get all the hrefs in a loop
+    for element in anchor_tags__filtered:
+##        print()
+        
+        # get href
+        href = element["href"]
+##        print("\n\n   Output the href we have found ...")
+##        print(href)
+
+        total_href = base_href + href
+##        pri(total_href, "total_href")
+
+##        first_file = anchor_tags__filtered[0]
+##        pri(first_file, "first_file")
+
+        file_name = element.contents[0].text
+##        pri(file_name, "file_name")
 
 
-    first_file = anchor_tags__filtered[0]
-    pri(first_file, "first_file")
+        # download the file
+        driver.get(total_href) # open the file
+        url_now = driver.current_url # get the url
+        
+##        pri(url_now, "url_now")
 
-    file_name = first_file.contents[0].text
-    pri(file_name, "file_name")
+        r = requests.get(url_now, allow_redirects=True)
+##        pri(r, "r")
 
+        root_location = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\"
+        open(root_location + file_name + ".pdf", 'wb').write(r.content)
 
-    # download the file
-    driver.get(total_href) # open the file
-    url_now = driver.current_url # get the url
-    
-    pri(url_now, "url_now")
+    driver.quit()
 
-    r = requests.get(url_now, allow_redirects=True)
-    pri(r, "r")
-
-    root_location = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\"
-    open(root_location + file_name + ".pdf", 'wb').write(r.content)
-
-
-
-
+    print("\n\n   Finished: downloading files")
 
 
 
