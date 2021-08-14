@@ -47,18 +47,11 @@ if 1:
 
     driver.get(url)
 
-    ##time.sleep(15)
     continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
-
-    ##time.sleep(2)
 
     html = driver.page_source
 
     pri(html, "html")
-
-##    url = "https://bb.imperial.ac.uk/bbcswebdav/pid-2071661-dt-content-rid-8358309_1/xid-8358309_1"
-##    r = requests.get(url, allow_redirects=True)
-##    pri(r, "r")
 
 # end of: seleneium
 
@@ -152,7 +145,8 @@ if 1:
     r = requests.get(url_now, allow_redirects=True)
     pri(r, "r")
 
-    open(file_name+".pdf", 'wb').write(r.content)
+    root_location = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\"
+    open(root_location + file_name + ".pdf", 'wb').write(r.content)
 
 
 
