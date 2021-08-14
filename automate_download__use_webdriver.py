@@ -56,16 +56,43 @@ html = driver.page_source
 print("\n   html ...")
 print(html)
 
+
+# save and load html variable
+import pickle
+
+# write to file
+with open('html_data.pickle', 'wb') as my_file:
+	pickle.dump([html], my_file)
+
+# read from file
+##with open('bia_wei.pickle', 'rb') as my_file:
+##    [biases_1, weights_1] = pickle.load(my_file)
+
+
 ##r = requests.get(url, allow_redirects=True)
 ##
-##from bs4 import BeautifulSoup
-##
-##print("\n\n   Using beautiful soup...")
-##soup = BeautifulSoup(html, 'html.parser')
-##print(soup.prettify())
-##
-##print("\n\n   soup.find_all ...")
+from bs4 import BeautifulSoup
+
+print("\n\n   Using beautiful soup...")
+soup = BeautifulSoup(html, 'html.parser')
+print(soup.prettify())
+
+print("\n\n   soup.find_all ...")
 ##print(soup.find_all("a"))
+
+for i in soup.find_all("a"):
+    print(i)
+    print()
+
+
+##https://bb.imperial.ac.uk/bbcswebdav/pid-2071661-dt-content-rid-8358309_1/xid-8358309_1
+
+
+
+
+
+
+
 
 
 
