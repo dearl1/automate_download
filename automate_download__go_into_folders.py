@@ -173,12 +173,27 @@ if 1:
         count += 1
 
     print("\n\n   Outputting just the anchor tags that are files ...\n")
+
+    max_length = max( [len(name)
+                       for (href, name) in files] )
+    
+##    print( [len(name) for (href, name) in files] )
+##    pri(max_length, "max_length")
+##    print()
+    
     for i in files:
-        print(i[1])
+        print(f"{i[1]}{' '*(max_length - len(i[1]))}   href: {i[0]}")
 
     print("\n\n   Outputting just the anchor tags that are folders ...\n")
+
+    max_length = max( [len(name)
+                       for (href, name) in folders] )
+    
     for i in folders:
-        print(i[1])
+        print(f"{i[1]}{' '*(max_length - len(i[1]))}   href: {i[0]}")
+    # https://bb.imperial.ac.uk
+    # /webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1
+    # https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1
 
 ##    print("\n\n   Try to get text of contents of all anchor tags...")
 ##    for i in anchor_tags:
