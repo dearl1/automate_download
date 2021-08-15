@@ -76,6 +76,8 @@ if 1:
     # I think I can find the anchor tags that are folders and only folders which have this '/webapps/blackboard/content/listContent.jsp?course_id=' in their href
         # and title attribute==None and target attribute==None.
         # The variable 'text' is the name of the folder.
+    # I think I can find all anchor tags which are files (incl phugoid type files) by searching for xid in the href.
+        # The variable 'text' is the name of the file but if text==None then the name of the file is i.contents[0].
     
         # Announcements is count = 16
         # lecture notes is count = 27
@@ -89,10 +91,13 @@ if 1:
 
         # [16, 27, 29, 31, 33, 35, 38, 41]
 
+    files = []
+    folders = []
+    
     print("\n\n   Extracting anchor tags...\n")
     count = 0
     while count < len(anchor_tags):
-        if count in [16, 27, 29, 31, 33, 35, 38, 41]: # if count in [16, 33]:
+        if 1: # if count in [16, 33]: # if count in [16, 27, 29, 31, 33, 35, 38, 41]:
         
             i = anchor_tags[count]
             href = i["href"]
@@ -100,48 +105,58 @@ if 1:
             contents_0 = i.contents[0]
 
 
-            # show text of contents
-##            print("\n   Try to get text of contents from anchor tag ...")
+            # try to get text of contents
             try:
                 text = i.contents[0].text
-##                print(text)
             except:
                 text = None
-##                print("Unable to get text from contents")
 
 
+            # try to get target attribute
             try:
                 target = i["target"]
-##                pri(target, "target")
             except:
                 target = None
-##                print("\nUnable to get target")
 
 
+            # try to get id attribute
             try:
                 id_attrib = i["id"]
             except:
                 id_attrib = None
 
 
+            # try to get title attribute
             try:
                 title = i["title"]
             except:
                 title = None
 
 
-            print(f"count: {count}")
-            
-            print(i)
-            
-            print("\n   contents[0] of anchor tag ...")
-            print(i.contents[0])
-            
-            print("\n   href of anchor tag ...")
-            print(href)
+            # add the current anchor tag to the files list if it's a file
+            if "xid" in href: # It's a file
+                if text == None: # It's of the phugoid type
+                    files.append([href, contents_0])
+                else: # It's not of the phugoid type
+                    files.append([href, text])
 
-            pri(text, "text")
-            pri(target, "target")
+            # add the current anchor tag to the folders list if it's a folder
+            if "/webapps/blackboard/content/listContent.jsp?course_id=" in href and title == None and target == None: # It's a folder
+                folders.append([href, text])
+            
+
+##            print(f"count: {count}")
+##            
+##            print(i)
+##            
+##            print("\n   contents[0] of anchor tag ...")
+##            print(i.contents[0])
+##            
+##            print("\n   href of anchor tag ...")
+##            print(href)
+##
+##            pri(text, "text")
+##            pri(target, "target")
 
 
 ##            if len(i.contents[0]) > 1 and target == "_blank" and id_attrib == None and title == None:
@@ -153,9 +168,17 @@ if 1:
 ##                print(f"contents_0: {contents_0}")
 ##                print("\n   **********************\n")
 
-            print("\n   **********************\n")
+##            print("\n   **********************\n")
             
         count += 1
+
+    print("\n\n   Outputting just the anchor tags that are files ...\n")
+    for i in files:
+        print(i[1])
+
+    print("\n\n   Outputting just the anchor tags that are folders ...\n")
+    for i in folders:
+        print(i[1])
 
 ##    print("\n\n   Try to get text of contents of all anchor tags...")
 ##    for i in anchor_tags:
@@ -174,7 +197,7 @@ if 1:
 ##        print()
 
 
-    anchor_tags__no_class = soup.find_all("a", attrs={'class': None})
+##    anchor_tags__no_class = soup.find_all("a", attrs={'class': None})
 
     ##print("\n   Output anchor_tags__no_class ... \n")
     # output anchor_tags__no_class
