@@ -70,7 +70,13 @@ if 1:
     anchor_tags = soup.find_all("a")
 
 
-    # I think I can find the file and folder anchor tags by finding where len(i.contents[0].text) > 0 and where the target attribute==None
+    # I can find the file and folder anchor tags by finding where len(i.contents[0].text) > 0 and where the target attribute==None
+    # I think I can find the phugoid, SPPO, dutch roll anchor tags by finding where len(i.contents[0]) > 1 and where the target attribute==_blank
+        # and id attribute==None and title attribute==None
+    # I think I can find the anchor tags that are folders and only folders which have this '/webapps/blackboard/content/listContent.jsp?course_id=' in their href
+        # and title attribute==None and target attribute==None.
+        # The variable 'text' is the name of the folder.
+    
         # Announcements is count = 16
         # lecture notes is count = 27
         # introductory slides is count = 29
@@ -81,22 +87,17 @@ if 1:
         # SPPO-sync.mp4 is count = 38
         # dutch roll - sync.mp4 is count = 41
 
-    print("\n\n   Extracting anchor tags...")
+        # [16, 27, 29, 31, 33, 35, 38, 41]
+
+    print("\n\n   Extracting anchor tags...\n")
     count = 0
     while count < len(anchor_tags):
-        if 1: # if count in [16, 33]:
+        if count in [16, 27, 29, 31, 33, 35, 38, 41]: # if count in [16, 33]:
         
             i = anchor_tags[count]
-
-##            print(f"count: {count}")
-            
-##            print(i)
-##            print("\n   contents[0] of anchor tag ...")
-##            print(i.contents[0])
-            
             href = i["href"]
-##            print("\n   href of anchor tag ...")
-##            print(href)
+
+            contents_0 = i.contents[0]
 
 
             # show text of contents
@@ -116,13 +117,44 @@ if 1:
                 target = None
 ##                print("\nUnable to get target")
 
-            if text != None and target == None:
-##                print("check 1")
-                if len(text) > 0:
-                    print("\nWe have extracted this anchor ...")
-                    print(f"text: {text}")
-                    print("\n   **********************\n")
 
+            try:
+                id_attrib = i["id"]
+            except:
+                id_attrib = None
+
+
+            try:
+                title = i["title"]
+            except:
+                title = None
+
+
+            print(f"count: {count}")
+            
+            print(i)
+            
+            print("\n   contents[0] of anchor tag ...")
+            print(i.contents[0])
+            
+            print("\n   href of anchor tag ...")
+            print(href)
+
+            pri(text, "text")
+            pri(target, "target")
+
+
+##            if len(i.contents[0]) > 1 and target == "_blank" and id_attrib == None and title == None:
+##
+##                print(f"count: {count}")
+##                print(f"len(i.contents[0]): {len(i.contents[0])}")
+##                
+##                print("\nWe have extracted this anchor ...")
+##                print(f"contents_0: {contents_0}")
+##                print("\n   **********************\n")
+
+            print("\n   **********************\n")
+            
         count += 1
 
 ##    print("\n\n   Try to get text of contents of all anchor tags...")
