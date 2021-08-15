@@ -22,7 +22,7 @@ url = "https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_g
 
 ########
 # use selenium
-if 0:
+if 1:
     from selenium import webdriver
 
     driver = webdriver.Chrome(executable_path=r'C:\Users\danny\Downloads\chromedriver_win32\chromedriver.exe')
@@ -241,6 +241,21 @@ if 1:
         # https://bb.imperial.ac.uk
         # /webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1
         # https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1
+
+
+    if 1:
+        # import Action chains 
+        from selenium.webdriver.common.action_chains import ActionChains
+        
+        module_element = driver.find_element_by_link_text(folders[index_choice])
+
+        # create action chain object
+        action = ActionChains(driver)
+        
+        action.click(on_element = module_element)
+
+        # perform the operation
+        action.perform()
 
 
 
