@@ -111,7 +111,7 @@ if 1:
     files = []
     folders = []
     
-    print("\n\n   Extracting anchor tags...\n")
+##    print("\n\n   Extracting anchor tags...\n")
     count = 0
     while count < len(anchor_tags):
         if 1: # if count in [16, 33]: # if count in [16, 27, 29, 31, 33, 35, 38, 41]:
@@ -174,19 +174,22 @@ if 1:
             if 1:
                 if href != None:
                     if "/webapps/blackboard/execute/launcher?type=Course&id=" in href:
-                        print(f"count: {count}")
+##                        folders = [[folders], [contents_0]]
+                        folders.append(contents_0)
                         
-                        print(i)
-                        
-                        print("\n   contents[0] of anchor tag ...")
-                        print(i.contents[0])
-                        
-                        pri(href, "href")
-
-                        pri(text, "text")
-                        pri(target, "target")
-
-                        print("\n   **********************\n")
+##                        print(f"count: {count}")
+##                        
+##                        print(i)
+##                        
+##                        print("\n   contents[0] of anchor tag ...")
+##                        print(i.contents[0])
+##                        
+##                        pri(href, "href")
+##
+##                        pri(text, "text")
+##                        pri(target, "target")
+##
+##                        print("\n   **********************\n")
             
 
 ##            print(f"count: {count}")
@@ -205,37 +208,36 @@ if 1:
             
             
         count += 1
+
+##    pri(folders, "folders")
         
 
-    if 0:
-        if len(files) > 0:
-            print("\n\n   Outputting just the anchor tags that are files ...\n")
-
-            max_length = max( [len(name)
-                               for (href, name) in files] )
-            
-        ##    print( [len(name) for (href, name) in files] )
-        ##    pri(max_length, "max_length")
-        ##    print()
-            
-            for i in files:
-                print(f"{i[1]}{' '*(max_length - len(i[1]))}   href: {i[0]}")
-                
-        else:
-            print("\nNo files found")
-                
-
+    if 1:
         if len(folders) > 0:
-            print("\n\n   Outputting just the anchor tags that are folders ...\n")
-
-            max_length = max( [len(name)
-                               for (href, name) in folders] )
             
-            for i in folders:
-                print(f"{i[1]}{' '*(max_length - len(i[1]))}   href: {i[0]}")
+            print("\n\n   Outputting just the anchor tags that are folders ...\n")
+##            max_length = max( [len(name)
+##                               for (name) in folders] )
+            
+            for index in range(len(folders)):
+                print(f"{index}   {folders[index]}")
+            
         else:
             print("\nNo folders found")
-                
+
+
+    # get user choice of what module folder they want to go into
+    print("\n\n")
+    if 1:
+        while 1:
+            try:
+                index_choice = int(input("Enter a number to choose a module to navigate into: "))
+                print(f"\nYou have chosen to navigate into: {folders[index_choice]}")
+                break
+            except:
+                print("Invalid input\n")
+
+            
         # https://bb.imperial.ac.uk
         # /webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1
         # https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1
