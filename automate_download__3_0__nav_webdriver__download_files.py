@@ -45,6 +45,11 @@ def make_location_directory(soup):
 
     return location_directory
 
+# end of: function to make location directory
+
+
+##############
+# list of urls
 
 # main blackboard page
 ##url = "https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1"
@@ -67,14 +72,13 @@ url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?cour
 # Ch 1-7 - Annotated pdf url opened at approx 2021_08_14
 ##https://learn-eu-central-1-prod-fleet01-xythos.content.blackboardcdn.com/60faa9080242d/4521639?X-Blackboard-Expiration=1628964000000&X-Blackboard-Signature=iSZupkWaThoJ%2B9BFI8LEI1swYKzucDS%2Fx3WhJVs2fZs%3D&X-Blackboard-Client-Id=309628&response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27Flight%2520Dynamics%2520%2526%2520Control%2520-%25202021%2520-%2520ch%25201-7%2520annotated.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210814T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PL5M5HI5WH%2F20210814%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=be8faa624168fbdb53a9b5788259a00bf12be87c51f2d69eabec3529fb7a612f
 
-
 # all flight dyn notes pdf
 ##url = 'https://learn-eu-central-1-prod-fleet01-xythos.content.blackboardcdn.com/60faa9080242d/4546262?X-Blackboard-Expiration=1628726400000&X-Blackboard-Signature=1qtS10B28NfSGAbyo397yy8RSTKoMRBmB4Eamq0Yca4%3D&X-Blackboard-Client-Id=309628&response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27Flight%2520Dynamics%2520%2526%2520Control%2520-%25202020-21%25282%2529.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210811T180000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PL5M5HI5WH%2F20210811%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=0b3f5766567effd8b7194bb73cf9b029e04af2c86b83120ae114a7fdb07c2f39'
 
 
 ########
 # use selenium
-if 0:
+if 1:
     from selenium import webdriver
 
     driver = webdriver.Chrome(executable_path=r'C:\Users\danny\Downloads\chromedriver_win32\chromedriver.exe')
@@ -103,7 +107,7 @@ if 0:
 
 
 # save and load html variable
-if 1:
+if 0:
     import pickle
 
     # write to file
@@ -191,12 +195,8 @@ if 1:
     print(f"\n\n   These files will be downloaded to ...\n{location_directory}")
 
 
-
-    
-
-    
 # download the files in the current blackboard location
-if 0:
+if 1:
     print("\n\n   Starting: download files")
     
     # access all the files in a loop
@@ -212,7 +212,7 @@ if 0:
 
         r = requests.get(url_now, allow_redirects=True)
 
-        open(location_directory + file_name + ".pdf", 'wb').write(r.content)
+        open("\\".join([location_directory, file_name]), 'wb').write(r.content)
 
     driver.quit()
 
