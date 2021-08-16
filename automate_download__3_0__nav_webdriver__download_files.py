@@ -163,6 +163,15 @@ if 1:
 
 ##    pri(files, "files")
 
+
+    # make sure hrefs have the correct base
+    base_href = "https://bb.imperial.ac.uk"
+
+    for index in files:
+        if base_href not in index[0]:
+            index[0] = "".join([base_href, index[0]])
+
+
     # Outputting the list of files that will be downloaded to the shell
     print("\n\n   Outputting the list of files that will be downloaded ...\n")
     
