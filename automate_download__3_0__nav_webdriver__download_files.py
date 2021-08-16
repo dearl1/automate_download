@@ -118,16 +118,6 @@ if 1:
     ##print(html)
 
 
-# get tree location of current location in blackboard using crumbs
-if 1:
-    
-    soup = BeautifulSoup(html, 'html.parser')
-
-    pri(make_location_directory(soup), "make_location_directory(soup)")
-    
-# end getting crumbs
-
-
 # get hrefs of files in current blackboard location and output to shell
 if 1:
     files = []
@@ -173,13 +163,18 @@ if 1:
 
 
     # Outputting the list of files that will be downloaded to the shell
-    print("\n\n   Outputting the list of files that will be downloaded ...\n")
+    print("\n\n   Outputting the list of files that will be downloaded if you want ...\n")
     
     max_length = max( [len(name)
                        for (href, name) in files] )
     
     for i in files:
         print(f"{i[1]}{' '*(max_length - len(i[1]))}   {i[0]}")
+
+
+    # output where in the computer the files will be downloaded to
+    location_directory = make_location_directory(soup)
+    print(f"\n\n   These files will be downloaded to ...\n{location_directory}")
 
     
 
