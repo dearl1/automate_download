@@ -1,6 +1,4 @@
 
-# use crumb_1, 2 and 3 from html to know where in the tree the user is at in the webdriver.
-
 import requests
 import selenium
 from lxml import html
@@ -122,104 +120,99 @@ if 1:
 
 # get tree location of current location in blackboard using crumbs
 if 1:
-
-##    soup = BeautifulSoup(r.content, 'html.parser')
     
     soup = BeautifulSoup(html, 'html.parser')
-##    anchor_tags = soup.find_all("a")
-    
-##    for i in anchor_tags:
-##        print(i)
-##        print()
 
     pri(make_location_directory(soup), "make_location_directory(soup)")
     
-        
 # end getting crumbs
 
 
-if 0:
+# get hrefs of files in current blackboard location and output to shell
+if 1:
+    files = []
 
     soup = BeautifulSoup(html, 'html.parser')
-    ##print("\n\n   Using beautiful soup...")
-    ##print(soup.prettify())
-
-    ##print("\n\n   soup.find_all ...")
-    ##print(soup.find_all("a"))
 
     anchor_tags = soup.find_all("a")
 
-    ##for i in anchor_tags:
-    ##    print(i)
-    ##    print()
+    for index in range(len(anchor_tags)):
+        anchor = anchor_tags[index]
+
+        # try to get href
+        try:
+            href = anchor["href"]
+        except:
+            href = None
+
+        contents_0 = anchor.contents[0]
+
+        # try to get text of contents
+        try:
+            text = anchor.contents[0].text
+        except:
+            text = None
+
+        # add the current anchor tag to the files list if it's a file
+        if href != None:
+            if "xid" in href: # It's a file
+                if text == None: # It's of the phugoid type
+                    files.append([href, contents_0])
+                else: # It's not of the phugoid type
+                    files.append([href, text])
+
+##    pri(files, "files")
+
+    # Outputting the list of files that will be downloaded to the shell
+    print("\n\n   Outputting the list of files that will be downloaded ...\n")
+    
+    max_length = max( [len(name)
+                       for (href, name) in files] )
+    
+    for i in files:
+        print(f"{i[1]}{' '*(max_length - len(i[1]))}   {i[0]}")
+
+    
 
 
-    anchor_tags__no_class = soup.find_all("a", attrs={'class': None})
+    if 0:
+        base_href = "https://bb.imperial.ac.uk"
 
-    ##print("\n   Output anchor_tags__no_class ... \n")
-    # output anchor_tags__no_class
-    ##for i in anchor_tags__no_class:
-    ##    print(i)
-    ##    print()
+        print("\n\n   Starting: download files")
+        # get all the hrefs in a loop
+        for element in anchor_tags__filtered:
+    ##        print()
+            
+            # get href
+            href = element["href"]
+    ##        print("\n\n   Output the href we have found ...")
+    ##        print(href)
 
+            total_href = base_href + href
+    ##        pri(total_href, "total_href")
 
-    ##anchor_tags__filtered = soup.find_all( "a", attrs={'class': None, 'onclick': True} )
-    ##for i in anchor_tags__filtered:
-    ##    print(i)
-    ##    print()
+    ##        first_file = anchor_tags__filtered[0]
+    ##        pri(first_file, "first_file")
 
-
-    print("\n   Output anchor_tags__filtered ... \n")
-    anchor_tags__filtered = soup.find_all( "a", attrs={'class': False, 'onclick': True, 'id': False} )
-    for i in anchor_tags__filtered:
-        print(i)
-        print()
-
-
-    # compare lengths of different extractions of anchor tags
-    print()
-    print(f"anchor_tags has length of: {len(anchor_tags)}")
-    print(f"anchor_tags__no_class has length of: {len(anchor_tags__no_class)}")
-    print(f"anchor_tags__filtered has length of: {len(anchor_tags__filtered)}")
+            file_name = element.contents[0].text
+    ##        pri(file_name, "file_name")
 
 
-    base_href = "https://bb.imperial.ac.uk"
+            # download the file
+            driver.get(total_href) # open the file
+            url_now = driver.current_url # get the url
+            
+    ##        pri(url_now, "url_now")
 
-    print("\n\n   Starting: download files")
-    # get all the hrefs in a loop
-    for element in anchor_tags__filtered:
-##        print()
-        
-        # get href
-        href = element["href"]
-##        print("\n\n   Output the href we have found ...")
-##        print(href)
+            r = requests.get(url_now, allow_redirects=True)
+    ##        pri(r, "r")
 
-        total_href = base_href + href
-##        pri(total_href, "total_href")
+            root_location = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\"
+            open(root_location + file_name + ".pdf", 'wb').write(r.content)
 
-##        first_file = anchor_tags__filtered[0]
-##        pri(first_file, "first_file")
+        driver.quit()
 
-        file_name = element.contents[0].text
-##        pri(file_name, "file_name")
-
-
-        # download the file
-        driver.get(total_href) # open the file
-        url_now = driver.current_url # get the url
-        
-##        pri(url_now, "url_now")
-
-        r = requests.get(url_now, allow_redirects=True)
-##        pri(r, "r")
-
-        root_location = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\"
-        open(root_location + file_name + ".pdf", 'wb').write(r.content)
-
-    driver.quit()
-
-    print("\n\n   Finished: downloading files")
+        print("\n\n   Finished: downloading files")
 
 
 
