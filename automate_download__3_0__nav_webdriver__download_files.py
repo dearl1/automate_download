@@ -1,3 +1,6 @@
+
+# use crumb_1, 2 and 3 from html to know where in the tree the user is at in the webdriver.
+
 import requests
 import selenium
 from lxml import html
@@ -12,14 +15,14 @@ def pri(var_name, str_var_name):
 
 
 # main blackboard page
-url = "https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1"
+##url = "https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1"
 
 ##url = "https://bb.imperial.ac.uk/bbcswebdav/pid-2071661-dt-content-rid-8358309_1/xid-8358309_1"
 ##r = requests.get(url, allow_redirects=True)
 ##pri(r, "r")
 
 # flight dynamics/lecture notes
-##url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2050170_1'
+url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2050170_1'
 
 # flight dynamics/lecture notes/in-class notes
 ##url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1'
@@ -39,7 +42,7 @@ url = "https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_g
 
 ########
 # use selenium
-if 1:
+if 0:
     from selenium import webdriver
 
     driver = webdriver.Chrome(executable_path=r'C:\Users\danny\Downloads\chromedriver_win32\chromedriver.exe')
@@ -53,14 +56,14 @@ if 1:
 
     continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
 
-##    html = driver.page_source
+    html = driver.page_source
 
-    url_now = driver.current_url
-    pri(url_now, "url_now")
-
-    continue_code = input("\n\nNavigate to a new location if you want.\nThen type anything and press enter to continue: ")
-    url_now = driver.current_url
-    pri(url_now, "url_now")
+##    url_now = driver.current_url
+##    pri(url_now, "url_now")
+##
+##    continue_code = input("\n\nNavigate to a new location if you want.\nThen type anything and press enter to continue: ")
+##    url_now = driver.current_url
+##    pri(url_now, "url_now")
 
 ##    pri(html, "html")
 
@@ -68,7 +71,7 @@ if 1:
 
 
 # save and load html variable
-if 0:
+if 1:
     import pickle
 
     # write to file
@@ -76,11 +79,46 @@ if 0:
     ##	pickle.dump([html], my_file)
 
     # read from file
-    with open('html_data.pickle', 'rb') as my_file:
+    with open('html_of_lctn__flightDyn_lecNotes.pickle', 'rb') as my_file:
         [html] = pickle.load(my_file)
 
     ##print("\n   html ...")
     ##print(html)
+
+
+# test get tree location of current location in blackboard using crumbs
+if 1:
+
+##    soup = BeautifulSoup(r.content, 'html.parser')
+    
+    soup = BeautifulSoup(html, 'html.parser')
+    anchor_tags = soup.find_all("a")
+    
+##    for i in anchor_tags:
+##        print(i)
+##        print()
+
+    crumb_1 = soup.find_all("span", attrs={'id': "crumb_1"})
+    crumb_1_length = len(crumb_1)
+    pri(crumb_1_length, "crumb_1_length")
+    pri(crumb_1, "crumb_1")
+
+    contents_0 = crumb_1[0].contents[0]
+    pri(contents_0, "contents_0")
+
+    length = len(contents_0)
+    pri(length, "length")
+
+    length = len("AERO50002 - Flight Dynamics and Control 2020-2021")
+    pri(length, "length")
+
+    contents_0 = contents_0.split()
+    pri(contents_0, "contents_0")
+
+    contents_0 = " ".join(contents_0)
+    pri(contents_0, "contents_0")
+        
+# end getting crumbs
 
 
 if 0:
