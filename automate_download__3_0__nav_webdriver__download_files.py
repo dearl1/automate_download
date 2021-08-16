@@ -14,6 +14,40 @@ def pri(var_name, str_var_name):
     print(var_name)
 
 
+# function to make location directory
+def make_location_directory(soup):
+    count = 1
+    crumb_names = []
+    while 1:
+        crumb_name = "crumb_" + str(count)
+        crumb_element = soup.find("span", attrs={'id': crumb_name})
+
+        if crumb_element == None:
+##            print(f"{crumb_name} was not found")
+            break
+        elif len(crumb_element) == 1:
+            contents_0 = crumb_element.contents[0]
+
+            # get rid of white space
+            contents_0 = contents_0.split()
+            contents_0 = " ".join(contents_0)
+
+            crumb_names.append(contents_0)            
+            
+        count += 1
+
+##    pri(crumb_names, "crumb_names")
+
+    location_directory = "\\".join(crumb_names)
+##    pri(location_directory, "location_directory")
+
+    root_location_directory = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download"
+    location_directory = "\\".join([root_location_directory, location_directory])
+##    pri(location_directory, "location_directory")
+
+    return location_directory
+
+
 # main blackboard page
 ##url = "https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1"
 
@@ -86,7 +120,7 @@ if 1:
     ##print(html)
 
 
-# test get tree location of current location in blackboard using crumbs
+# get tree location of current location in blackboard using crumbs
 if 1:
 
 ##    soup = BeautifulSoup(r.content, 'html.parser')
@@ -98,48 +132,8 @@ if 1:
 ##        print(i)
 ##        print()
 
-    count = 1
-    crumb_names = []
-    while 1:
-        crumb_name = "crumb_" + str(count)
-        crumb_element = soup.find("span", attrs={'id': crumb_name})
-
-        if crumb_element == None:
-            print(f"{crumb_name} was not found")
-            break
-        elif len(crumb_element) == 1:
-            contents_0 = crumb_element.contents[0]
-
-            # get rid of white space
-            contents_0 = contents_0.split()
-            contents_0 = " ".join(contents_0)
-
-            crumb_names.append(contents_0)            
-            
-        count += 1
-##        break
-
-##    crumb_1 = soup.find_all("span", attrs={'id': "crumb_1"})
-##    crumb_1_length = len(crumb_1)
-##    pri(crumb_1_length, "crumb_1_length")
-##    pri(crumb_1, "crumb_1")
-##
-##    contents_0 = crumb_1[0].contents[0]
-##    pri(contents_0, "contents_0")
-##
-##    length = len(contents_0)
-##    pri(length, "length")
-##
-##    length = len("AERO50002 - Flight Dynamics and Control 2020-2021")
-##    pri(length, "length")
-##
-##    contents_0 = contents_0.split()
-##    pri(contents_0, "contents_0")
-##
-##    contents_0 = " ".join(contents_0)
-##    pri(contents_0, "contents_0")
-
-    pri(crumb_names, "crumb_names")
+    pri(make_location_directory(soup), "make_location_directory(soup)")
+    
         
 # end getting crumbs
 
