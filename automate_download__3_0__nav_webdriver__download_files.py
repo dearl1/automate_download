@@ -92,31 +92,54 @@ if 1:
 ##    soup = BeautifulSoup(r.content, 'html.parser')
     
     soup = BeautifulSoup(html, 'html.parser')
-    anchor_tags = soup.find_all("a")
+##    anchor_tags = soup.find_all("a")
     
 ##    for i in anchor_tags:
 ##        print(i)
 ##        print()
 
-    crumb_1 = soup.find_all("span", attrs={'id': "crumb_1"})
-    crumb_1_length = len(crumb_1)
-    pri(crumb_1_length, "crumb_1_length")
-    pri(crumb_1, "crumb_1")
+    count = 1
+    crumb_names = []
+    while 1:
+        crumb_name = "crumb_" + str(count)
+        crumb_element = soup.find("span", attrs={'id': crumb_name})
 
-    contents_0 = crumb_1[0].contents[0]
-    pri(contents_0, "contents_0")
+        if crumb_element == None:
+            print(f"{crumb_name} was not found")
+            break
+        elif len(crumb_element) == 1:
+            contents_0 = crumb_element.contents[0]
 
-    length = len(contents_0)
-    pri(length, "length")
+            # get rid of white space
+            contents_0 = contents_0.split()
+            contents_0 = " ".join(contents_0)
 
-    length = len("AERO50002 - Flight Dynamics and Control 2020-2021")
-    pri(length, "length")
+            crumb_names.append(contents_0)            
+            
+        count += 1
+##        break
 
-    contents_0 = contents_0.split()
-    pri(contents_0, "contents_0")
+##    crumb_1 = soup.find_all("span", attrs={'id': "crumb_1"})
+##    crumb_1_length = len(crumb_1)
+##    pri(crumb_1_length, "crumb_1_length")
+##    pri(crumb_1, "crumb_1")
+##
+##    contents_0 = crumb_1[0].contents[0]
+##    pri(contents_0, "contents_0")
+##
+##    length = len(contents_0)
+##    pri(length, "length")
+##
+##    length = len("AERO50002 - Flight Dynamics and Control 2020-2021")
+##    pri(length, "length")
+##
+##    contents_0 = contents_0.split()
+##    pri(contents_0, "contents_0")
+##
+##    contents_0 = " ".join(contents_0)
+##    pri(contents_0, "contents_0")
 
-    contents_0 = " ".join(contents_0)
-    pri(contents_0, "contents_0")
+    pri(crumb_names, "crumb_names")
         
 # end getting crumbs
 
