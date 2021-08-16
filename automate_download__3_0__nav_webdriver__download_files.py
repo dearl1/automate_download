@@ -3,6 +3,7 @@ import requests
 import selenium
 from lxml import html
 from bs4 import BeautifulSoup
+import os
 
 
 # function to output name of variable and what the variable is
@@ -193,6 +194,12 @@ if 1:
     # output where in the computer the files will be downloaded to
     location_directory = make_location_directory(soup)
     print(f"\n\n   These files will be downloaded to ...\n{location_directory}")
+
+
+# make a directory in the computer if it doesn't exist already
+if 1:
+    if not os.path.exists(location_directory):
+        os.makedirs(location_directory)
 
 
 # download the files in the current blackboard location
