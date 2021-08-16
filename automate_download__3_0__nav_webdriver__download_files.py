@@ -118,7 +118,7 @@ if 1:
     ##print(html)
 
 
-# get hrefs of files in current blackboard location and output to shell
+# get hrefs of files in current blackboard location
 if 1:
     files = []
 
@@ -154,7 +154,21 @@ if 1:
 ##    pri(files, "files")
 
 
+# check if file types (e.g. ".mp4") are in the file names
+if 1:
+##    print("\n\n   Checking if there is a dot in each of the file names ...")
+    
+    for file in files:
+        if "." not in file[1]:
+##            print(f"{file[1]} does not have a dot")
+            # put ".pdf" on the end of file names that don't have a dot
+            file[1] = "".join([file[1], ".pdf"])
+
+
+    
+if 1:
     # make sure hrefs have the correct base
+    
     base_href = "https://bb.imperial.ac.uk"
 
     for index in files:
@@ -177,26 +191,7 @@ if 1:
     print(f"\n\n   These files will be downloaded to ...\n{location_directory}")
 
 
-# check if file types (e.g. ".mp4") are in the file names
-if 1:
-    print("\n\n   Checking if there is a dot in each of the file names ...")
-    
-    for file in files:
-        if "." in file[1]:
-            print(f"{file[1]} does have a dot")
-        else:
-            print(f"{file[1]} does not have a dot")
-            # put ".pdf" on the end of file names that don't have a dot
-            file[1] = "".join([file[1], ".pdf"])
 
-
-    print("\n\n   Checking if there is a dot in each of the file names ...")
-    
-    for file in files:
-        if "." in file[1]:
-            print(f"{file[1]} does have a dot")
-        else:
-            print(f"{file[1]} does not have a dot")
     
 
     
