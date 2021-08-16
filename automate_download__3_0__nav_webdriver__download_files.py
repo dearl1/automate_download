@@ -176,47 +176,52 @@ if 1:
     location_directory = make_location_directory(soup)
     print(f"\n\n   These files will be downloaded to ...\n{location_directory}")
 
+
+# check if file types (e.g. ".mp4") are in the file names
+if 1:
+    print("\n\n   Checking if there is a dot in each of the file names ...")
+    
+    for file in files:
+        if "." in file[1]:
+            print(f"{file[1]} does have a dot")
+        else:
+            print(f"{file[1]} does not have a dot")
+            # put ".pdf" on the end of file names that don't have a dot
+            file[1] = "".join([file[1], ".pdf"])
+
+
+    print("\n\n   Checking if there is a dot in each of the file names ...")
+    
+    for file in files:
+        if "." in file[1]:
+            print(f"{file[1]} does have a dot")
+        else:
+            print(f"{file[1]} does not have a dot")
     
 
+    
+# download the files in the current blackboard location
+if 0:
+    print("\n\n   Starting: download files")
+    
+    # access all the files in a loop
+    for file in files:
 
-    if 0:
-        base_href = "https://bb.imperial.ac.uk"
-
-        print("\n\n   Starting: download files")
-        # get all the hrefs in a loop
-        for element in anchor_tags__filtered:
-    ##        print()
-            
-            # get href
-            href = element["href"]
-    ##        print("\n\n   Output the href we have found ...")
-    ##        print(href)
-
-            total_href = base_href + href
-    ##        pri(total_href, "total_href")
-
-    ##        first_file = anchor_tags__filtered[0]
-    ##        pri(first_file, "first_file")
-
-            file_name = element.contents[0].text
-    ##        pri(file_name, "file_name")
+        file_name = file[1]
+        file_href = file[0]
 
 
-            # download the file
-            driver.get(total_href) # open the file
-            url_now = driver.current_url # get the url
-            
-    ##        pri(url_now, "url_now")
+        # download the file
+        driver.get(file_href) # open the file
+        url_now = driver.current_url # get the url
 
-            r = requests.get(url_now, allow_redirects=True)
-    ##        pri(r, "r")
+        r = requests.get(url_now, allow_redirects=True)
 
-            root_location = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\"
-            open(root_location + file_name + ".pdf", 'wb').write(r.content)
+        open(location_directory + file_name + ".pdf", 'wb').write(r.content)
 
-        driver.quit()
+    driver.quit()
 
-        print("\n\n   Finished: downloading files")
+    print("\n\n   Finished: downloading files")
 
 
 
