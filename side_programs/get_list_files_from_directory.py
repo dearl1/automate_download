@@ -69,11 +69,15 @@ location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external 
 download_file_name = os.listdir(location_download)
 download_file_name = download_file_name[0]
 
+download_file_name_split = download_file_name.split(".")
+
 pri(download_file_name, "download_file_name")
+pri(download_file_name_split, "download_file_name_split")
 
-file_name = "renamed to hello.txt"
+file_name = "rename again.pdf"
+just_name = file_name.replace(".pdf", "")
 
-os.rename("\\".join([location_download, download_file_name]), "\\".join([location_download, file_name]))
+os.rename("\\".join([location_download, download_file_name]), "\\".join([location_download, just_name+"."+download_file_name_split[1]]))
 
 
 
