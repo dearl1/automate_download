@@ -6,6 +6,9 @@ from bs4 import BeautifulSoup
 import os
 from selenium import webdriver
 
+import shutil
+from shutil import copyfile
+
 
 # function to output name of variable and what the variable is
 def pri(var_name, str_var_name):
@@ -50,6 +53,25 @@ def make_location_directory(soup):
 # end of: function to make location directory
 
 
+# function to empty the download directory
+def empty_download_dir():
+    # make a download directory in the computer if it doesn't exist already
+    
+    location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\download"
+    
+    if os.path.exists(location_download):
+
+        # delete all the files in the directory i.e. empty the directory
+        for file_name in os.listdir(location_download):
+            path_and_file_name = "\\".join([location_download, file_name])
+            os.remove(path_and_file_name)
+
+    else:
+        print("Error. You tried to empty a directory which doesn't exist.")
+
+# end of: function to empty the download directory
+
+
 ##############
 # list of urls
 
@@ -80,24 +102,9 @@ url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?cour
 
 if 1:
     # make a download directory in the computer if it doesn't exist already
-    
     location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\download"
-    
-    if os.path.exists(location_download):
-        # if the download directory exists then delete it because we want to make it afresh
-
-        # first delete all the files in the directory
-        for file_name in os.listdir(location_download):
-            path_and_file_name = "\\".join([location_download, file_name])
-            os.remove(path_and_file_name)
-
-        # now delete the directory itself
-        os.rmdir(location_download)
-
-    # If the directory existed it has been deleted. If it didn't exist it didn't exist.
-    # The directory doesn't exist.
-    # We will make the directory.
-    os.makedirs(location_download)
+    if not os.path.exists(location_download):
+        os.makedirs(location_download)
 
 
 ########
@@ -113,7 +120,8 @@ if 1:
 
     driver.get(url) # open the flight dynamics/lecture notes blackboard location
 
-    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
+    print("\n\nNavigate to the location from which you want to download files.")
+    continue_code = input("Now type anything and press enter once to continue: ")
 
     html = driver.page_source # get the html so we can find the names and hrefs of the files that need to be downloaded
 
@@ -240,25 +248,76 @@ if 1:
 # download the files in the current blackboard location
 if 1:
     print("\n\n   Starting: download files")
-    
+
+    go_through_files = True
     # access all the files in a loop
     for file in files:
+        if go_through_files == False:
+            break
+        
+        go_through_files = False
 
         file_name = file[1]
         file_href = file[0]
 
-        # download the file
-        driver.get(file_href) # open the file
-        url_now = driver.current_url # get the url
+        # empty the download directory because we want to work from a clean slate
+        empty_download_dir()        
+        
+        # open the file
+        driver.get(file_href)
 
-        r = requests.get(url_now, allow_redirects=True)
+        # see if the number of files in the download directory has increased from 0 to 1
+        num_of_files = len( [ name for name in os.listdir(location_download) ] )
 
-        path_and_file_name = "\\".join([location_directory, file_name])
+        if num_of_files == 1: # we need to move this file which is in the download directory into the correct directory with all the other files
+            download_file_name = os.listdir(location_download)
+            download_file_name = download_file_name[0]
+            download_file_name_split = download_file_name.split(".")
 
-        # download the file if it doesn't already exist
-        if not os.path.exists(path_and_file_name):
-            open(path_and_file_name, 'wb').write(r.content)
+            # get just the name of the file which blackboard gives this file (don't include the file extension)
+            just_name = file_name.replace(".pdf", "")
 
+            just_name_count = just_name
+
+            count = 1
+            while 1:
+                if not os.path.exists( f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}" ): # If the file doesn't already exist then:
+                    # Move the file which is in the download directory into the correct directory.
+                        # But change the name to what blackboard gives the file while keeping the file extension the same as what it was when it was in the download
+                        # directory.
+
+##                    os.rename(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
+                    copyfile(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
+                    break
+                else:
+                    # Append a number to the file name if there is already a version of the file present.
+                    just_name_count = f"{just_name} ({count})"
+                    count += 1
+                    
+        else: # nothing went into the download directory so we need to get the url and download manually to the correct directory
+        
+            url_now = driver.current_url # get the url
+            r = requests.get(url_now, allow_redirects=True)
+
+            file_name_split = file_name.split(".")
+            just_file_name = file_name_split[0]
+            
+            just_file_name_count = just_file_name
+            file_extension = file_name_split[1]
+
+            count = 1
+            while 1:
+                if not os.path.exists( f"{location_directory}\\{just_file_name_count}.{file_extension}" ): # If the file doesn't already exist then:
+                    # Download the file to the correct directory
+                    open(f"{location_directory}\\{just_file_name_count}.{file_extension}", 'wb').write(r.content)
+                    break
+                else:
+                    # Append a number to the file name if there is already a version of the file present.
+                    just_file_name_count = f"{just_file_name} ({count})"
+                    count += 1
+                    
+
+    # close the webdriver
     driver.quit()
 
     print("\n\n   Finished: downloading files")
