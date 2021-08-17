@@ -249,13 +249,13 @@ if 1:
 if 1:
     print("\n\n   Starting: download files")
 
-    go_through_files = True
+##    go_through_files = True
     # access all the files in a loop
-    for file in files:
-        if go_through_files == False:
-            break
+    for file in files[0:2]:
+##        if go_through_files == False:
+##            break
         
-        go_through_files = False
+##        go_through_files = False
 
         file_name = file[1]
         file_href = file[0]
@@ -318,7 +318,7 @@ if 1:
                     
 
     # close the webdriver
-    driver.quit()
+##    driver.quit()
 
     print("\n\n   Finished: downloading files")
 
