@@ -74,23 +74,24 @@ download_file_name_split = download_file_name.split(".")
 ##pri(download_file_name, "download_file_name")
 ##pri(download_file_name_split, "download_file_name_split")
 
-file_name = "rename again x3.pdf"
+file_name = "rename x1.pdf"
 just_name = file_name.replace(".pdf", "")
 
-os.rename(f"{location_download}\\{download_file_name}", f"{location_download}\\sub_download\\{just_name}.{download_file_name_split[1]}")
+location_directory = f"{location_download}\\sub_download"
 
 
-##just_name_count = just_name
-##
-##count =1
-##while 1:
-##    if not os.path.exists( "\\".join([location_download, just_name_count+"."+download_file_name_split[1]]) ):
-##        os.rename("\\".join([location_download, download_file_name]), "\\".join([location_download, just_name_count+"."+download_file_name_split[1]]))
-##        break
-##    else:
-##        just_name_count = f"{just_name} ({count}).{download_file_name_split[1]}"
-##        count += 1
+just_name_count = just_name
 
+count = 1
+while 1:
+    if not os.path.exists( f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}" ):
+        os.rename(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
+        break
+    else:
+        just_name_count = f"{just_name} ({count})"
+        count += 1
+
+##os.rename(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name}.{download_file_name_split[1]}")
 
 
 
