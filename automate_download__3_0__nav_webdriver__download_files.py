@@ -11,6 +11,8 @@ from selenium.webdriver.common.keys import Keys
 import shutil
 from shutil import copyfile
 
+import time
+
 
 # function to output name of variable and what the variable is
 def pri(var_name, str_var_name):
@@ -125,8 +127,12 @@ if 1:
     # put in de219
     inputElement = driver.find_element_by_id("username")
     inputElement.send_keys('de219')
-    
 
+    # click into password box
+    inputElement = driver.find_element_by_id("password")
+    inputElement.click()
+    
+    # allow the user to go to the place they want to download files from
     print("\n\nNavigate to the location from which you want to download files.")
     continue_code = input("Now type anything and press enter once to continue: ")
 
@@ -270,22 +276,41 @@ if 1:
 
         # see if the number of files in the download directory has increased from 0 to 1
         num_of_files = len( [ name for name in os.listdir(location_download) ] )
-        pri(num_of_files, "num_of_files")
+##        pri(num_of_files, "num_of_files")
 
-        if num_of_files == 1: # we need to move this file which is in the download directory into the correct directory with all the other files
-            download_file_name = os.listdir(location_download)
-            download_file_name = download_file_name[0]
-            download_file_name_split = download_file_name.split(".")
+        if num_of_files == 1: # we need to move this file which is in the download directory into the working directory with all the other files
+            # We need to wait for the file to fully download i.e. for the file extension to stop being .tmp
+            download_file_name_extension = "tmp"
+            while download_file_name_extension == "tmp":
+                download_file_name = os.listdir(location_download)
+                print("while loop is running")
+##                pri(download_file_name, "download_file_name")
+                
+                download_file_name = download_file_name[0]
+##                pri(download_file_name, "download_file_name")
+                
+                download_file_name_split = download_file_name.split(".")
+##                pri(download_file_name_split, "download_file_name_split")
+
+                download_file_name_extension = download_file_name_split[1]
+
+            print("\n out of while loop")
+            pri(download_file_name, "download_file_name")
+            pri(download_file_name, "download_file_name")
+            pri(download_file_name_split, "download_file_name_split")
+
+                
 
             # get just the name of the file which blackboard gives this file (don't include the file extension)
             just_name = file_name.replace(".pdf", "")
+##            pri(just_name, "just_name")
 
             just_name_count = just_name
 
             count = 1
             while 1:
                 if not os.path.exists( f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}" ): # If the file doesn't already exist then:
-                    # Move the file which is in the download directory into the correct directory.
+                    # Move the file which is in the download directory into the working directory.
                         # But change the name to what blackboard gives the file while keeping the file extension the same as what it was when it was in the download
                         # directory.
 
@@ -297,7 +322,7 @@ if 1:
                     just_name_count = f"{just_name} ({count})"
                     count += 1
                     
-        else: # nothing went into the download directory so we need to get the url and download manually to the correct directory
+        else: # nothing went into the download directory so we need to get the url and download manually to the working directory
         
             url_now = driver.current_url # get the url
             r = requests.get(url_now, allow_redirects=True)
@@ -311,7 +336,7 @@ if 1:
             count = 1
             while 1:
                 if not os.path.exists( f"{location_directory}\\{just_file_name_count}.{file_extension}" ): # If the file doesn't already exist then:
-                    # Download the file to the correct directory
+                    # Download the file to the working directory
                     open(f"{location_directory}\\{just_file_name_count}.{file_extension}", 'wb').write(r.content)
                     break
                 else:
@@ -321,7 +346,7 @@ if 1:
                     
 
     # close the webdriver
-##    driver.quit()
+    driver.quit()
 
     print("\n\n   Finished: downloading files")
 
