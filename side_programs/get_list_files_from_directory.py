@@ -51,9 +51,31 @@ def make_location_directory(soup):
 
 
 # check if a file exists
-location_directory = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\AERO50002 - Flight Dynamics and Control 2020-2021\\Course Content\\Lecture Notes"
-print("\\".join([location_directory, "Flight Dyn Slides.pptx"]))
-print(os.path.isfile( "\\".join([location_directory, "Flight Dyn Slides.pptx"]) ))
+##location_directory = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\AERO50002 - Flight Dynamics and Control 2020-2021\\Course Content\\Lecture Notes"
+##print("\\".join([location_directory, "Flight Dyn Slides.pptx"]))
+##print(os.path.isfile( "\\".join([location_directory, "Flight Dyn Slides.pptx"]) ))
+
+
+# get the name of the file without the .pdf extension
+##file_name = "Introductory Slides.pdf"
+##pri(file_name, "file_name")
+##
+##just_name = file_name.replace(".pdf", "")
+##pri(just_name, "just_name")
+
+
+# try to rename a file in download directory
+location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\download"
+download_file_name = os.listdir(location_download)
+download_file_name = download_file_name[0]
+
+pri(download_file_name, "download_file_name")
+
+file_name = "renamed to hello.txt"
+
+os.rename("\\".join([location_download, download_file_name]), "\\".join([location_download, file_name]))
+
+
 
 
 '''
