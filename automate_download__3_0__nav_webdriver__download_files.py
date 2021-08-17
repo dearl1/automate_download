@@ -78,27 +78,6 @@ url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?cour
 ##url = 'https://learn-eu-central-1-prod-fleet01-xythos.content.blackboardcdn.com/60faa9080242d/4546262?X-Blackboard-Expiration=1628726400000&X-Blackboard-Signature=1qtS10B28NfSGAbyo397yy8RSTKoMRBmB4Eamq0Yca4%3D&X-Blackboard-Client-Id=309628&response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27Flight%2520Dynamics%2520%2526%2520Control%2520-%25202020-21%25282%2529.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210811T180000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PL5M5HI5WH%2F20210811%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=0b3f5766567effd8b7194bb73cf9b029e04af2c86b83120ae114a7fdb07c2f39'
 
 
-########
-# use selenium
-if 0:
-    chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
-    
-    driver = webdriver.Chrome(executable_path = chromedriver)
-
-    # flight dynamics/lecture notes/in-class notes
-##    url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1'
-
-    #url = "https://bb.imperial.ac.uk/bbcswebdav/pid-2071661-dt-content-rid-8358309_1/xid-8358309_1"
-
-    driver.get(url)
-
-    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
-
-    html = driver.page_source
-
-    driver.quit()
-
-
 if 1:
     # make a download directory in the computer if it doesn't exist already
     
@@ -119,19 +98,24 @@ if 1:
     # The directory doesn't exist.
     # We will make the directory.
     os.makedirs(location_download)
-        
-'''    
-    # set download directory in the webdriver
+
+
+########
+# use selenium
+if 1:      
+    # create a webdriver and set the download directory
     chromeOptions = webdriver.ChromeOptions()
     
-    prefs = {"download.default_directory" : location_directory}
+    prefs = {"download.default_directory" : location_download}
     chromeOptions.add_experimental_option("prefs",prefs)
     chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
     driver = webdriver.Chrome(executable_path = chromedriver, options = chromeOptions)
 
-    driver.get(url) # open the flight dynamics/lecture notes blackboard location again
+    driver.get(url) # open the flight dynamics/lecture notes blackboard location
 
     continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
+
+    html = driver.page_source # get the html so we can find the names and hrefs of the files that need to be downloaded
 
 
 ##    url_now = driver.current_url
@@ -241,16 +225,16 @@ if 1:
         os.makedirs(location_directory)
 
 
-    # set download directory in the webdriver
-    chromeOptions = webdriver.ChromeOptions()
-    prefs = {"download.default_directory" : location_directory}
-    chromeOptions.add_experimental_option("prefs",prefs)
-    chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
-    driver = webdriver.Chrome(executable_path = chromedriver, options = chromeOptions)
-
-    driver.get(url) # open the flight dynamics/lecture notes blackboard location again
-
-    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
+##    # set download directory in the webdriver
+##    chromeOptions = webdriver.ChromeOptions()
+##    prefs = {"download.default_directory" : location_directory}
+##    chromeOptions.add_experimental_option("prefs",prefs)
+##    chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
+##    driver = webdriver.Chrome(executable_path = chromedriver, options = chromeOptions)
+##
+##    driver.get(url) # open the flight dynamics/lecture notes blackboard location again
+##
+##    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
 
 
 # download the files in the current blackboard location
@@ -269,7 +253,11 @@ if 1:
 
         r = requests.get(url_now, allow_redirects=True)
 
-        open("\\".join([location_directory, file_name]), 'wb').write(r.content)
+        path_and_file_name = "\\".join([location_directory, file_name])
+
+        # download the file if it doesn't already exist
+        if not os.path.exists(path_and_file_name):
+            open(path_and_file_name, 'wb').write(r.content)
 
     driver.quit()
 
@@ -282,4 +270,4 @@ if 1:
 
 
 
-'''
+
