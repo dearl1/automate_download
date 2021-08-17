@@ -80,7 +80,7 @@ url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?cour
 
 ########
 # use selenium
-if 1:
+if 0:
     chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
     
     driver = webdriver.Chrome(executable_path = chromedriver)
@@ -95,6 +95,44 @@ if 1:
     continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
 
     html = driver.page_source
+
+    driver.quit()
+
+
+if 1:
+    # make a download directory in the computer if it doesn't exist already
+    
+    location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\download"
+    
+    if os.path.exists(location_download):
+        # if the download directory exists then delete it because we want to make it afresh
+
+        # first delete all the files in the directory
+        for file_name in os.listdir(location_download):
+            path_and_file_name = "\\".join([location_download, file_name])
+            os.remove(path_and_file_name)
+
+        # now delete the directory itself
+        os.rmdir(location_download)
+
+    # If the directory existed it has been deleted. If it didn't exist it didn't exist.
+    # The directory doesn't exist.
+    # We will make the directory.
+    os.makedirs(location_download)
+        
+'''    
+    # set download directory in the webdriver
+    chromeOptions = webdriver.ChromeOptions()
+    
+    prefs = {"download.default_directory" : location_directory}
+    chromeOptions.add_experimental_option("prefs",prefs)
+    chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
+    driver = webdriver.Chrome(executable_path = chromedriver, options = chromeOptions)
+
+    driver.get(url) # open the flight dynamics/lecture notes blackboard location again
+
+    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
+
 
 ##    url_now = driver.current_url
 ##    pri(url_now, "url_now")
@@ -244,3 +282,4 @@ if 1:
 
 
 
+'''
