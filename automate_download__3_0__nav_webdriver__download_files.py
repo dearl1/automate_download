@@ -4,6 +4,7 @@ import selenium
 from lxml import html
 from bs4 import BeautifulSoup
 import os
+from selenium import webdriver
 
 
 # function to output name of variable and what the variable is
@@ -80,9 +81,9 @@ url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?cour
 ########
 # use selenium
 if 1:
-    from selenium import webdriver
-
-    driver = webdriver.Chrome(executable_path=r'C:\Users\danny\Downloads\chromedriver_win32\chromedriver.exe')
+    chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
+    
+    driver = webdriver.Chrome(executable_path = chromedriver)
 
     # flight dynamics/lecture notes/in-class notes
 ##    url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1'
@@ -196,10 +197,22 @@ if 1:
     print(f"\n\n   These files will be downloaded to ...\n{location_directory}")
 
 
-# make a directory in the computer if it doesn't exist already
 if 1:
+    # make a directory in the computer if it doesn't exist already
     if not os.path.exists(location_directory):
         os.makedirs(location_directory)
+
+
+    # set download directory in the webdriver
+    chromeOptions = webdriver.ChromeOptions()
+    prefs = {"download.default_directory" : location_directory}
+    chromeOptions.add_experimental_option("prefs",prefs)
+    chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
+    driver = webdriver.Chrome(executable_path = chromedriver, options = chromeOptions)
+
+    driver.get(url) # open the flight dynamics/lecture notes blackboard location again
+
+    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
 
 
 # download the files in the current blackboard location
@@ -211,7 +224,6 @@ if 1:
 
         file_name = file[1]
         file_href = file[0]
-
 
         # download the file
         driver.get(file_href) # open the file
