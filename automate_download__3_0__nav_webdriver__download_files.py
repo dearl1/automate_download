@@ -4,7 +4,9 @@ import selenium
 from lxml import html
 from bs4 import BeautifulSoup
 import os
+
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 import shutil
 from shutil import copyfile
@@ -119,6 +121,11 @@ if 1:
     driver = webdriver.Chrome(executable_path = chromedriver, options = chromeOptions)
 
     driver.get(url) # open the flight dynamics/lecture notes blackboard location
+
+    # put in de219
+    inputElement = driver.find_element_by_id("username")
+    inputElement.send_keys('de219')
+    
 
     print("\n\nNavigate to the location from which you want to download files.")
     continue_code = input("Now type anything and press enter once to continue: ")
@@ -244,18 +251,13 @@ if 1:
 ##
 ##    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
 
-
 # download the files in the current blackboard location
 if 1:
     print("\n\n   Starting: download files")
 
-##    go_through_files = True
-    # access all the files in a loop
-    for file in files[0:2]:
-##        if go_through_files == False:
-##            break
-        
-##        go_through_files = False
+    for file_count in [1]:
+
+        file = files[file_count]
 
         file_name = file[1]
         file_href = file[0]
@@ -268,6 +270,7 @@ if 1:
 
         # see if the number of files in the download directory has increased from 0 to 1
         num_of_files = len( [ name for name in os.listdir(location_download) ] )
+        pri(num_of_files, "num_of_files")
 
         if num_of_files == 1: # we need to move this file which is in the download directory into the correct directory with all the other files
             download_file_name = os.listdir(location_download)
