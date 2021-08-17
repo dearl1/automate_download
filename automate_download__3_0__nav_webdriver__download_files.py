@@ -59,6 +59,7 @@ def make_location_directory(soup):
 
 # function to empty the download directory
 def empty_download_dir():
+    print("\n starting function: empty_download_dir")
     # make a download directory in the computer if it doesn't exist already
     
     location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\download"
@@ -74,6 +75,32 @@ def empty_download_dir():
         print("Error. You tried to empty a directory which doesn't exist.")
 
 # end of: function to empty the download directory
+
+
+# function that checks if "tmp" extension no longer exists on a file which is downloading
+def wait_for_download(location_download):
+    download_file_name_extension = "tmp"
+    
+    while download_file_name_extension == "tmp" or download_file_name_extension == "crdownload":
+        download_file_name = os.listdir(location_download)
+##        print("while loop is running")
+
+##        if len(download_file_name) == 0: # if there is nothing downloading into the download directory then we don't need to wait for anything
+##            return ("nothing downloading", "nothing downloading")
+
+        if len(download_file_name) == 0:
+            pri(len(download_file_name), "len(download_file_name)")
+            continue # wait a bit for the download to actually start
+        
+        download_file_name = download_file_name[0]
+        
+        download_file_name_split = download_file_name.split(".")
+
+        download_file_name_extension = download_file_name_split[-1]
+
+    return (download_file_name, download_file_name_split)
+
+# end of: function that checks if "tmp" extension no longer exists on a file which is downloading
 
 
 ##############
@@ -258,21 +285,34 @@ if 1:
 ##    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
 
 # download the files in the current blackboard location
+download_happening = False
 if 1:
     print("\n\n   Starting: download files")
 
-    for file_count in [1]:
+    for file_count in [1]: # for file_count in [1]: # for file_count in range(len(files)):
 
         file = files[file_count]
 
         file_name = file[1]
         file_href = file[0]
 
+        pri(file_name, "file_name")
+
         # empty the download directory because we want to work from a clean slate
-        empty_download_dir()        
+        # first we need to wait for any files that are downloading to stop having the extension "tmp"
+##        print("\n before wait for download")
+        
+##        if download_happening == True:
+##            print("\n check 1")
+##            (download_file_name, download_file_name_split) = wait_for_download(location_download)
+##            download_happening = False
+            
+##        print("\n after wait for download")
+        empty_download_dir()
         
         # open the file
         driver.get(file_href)
+        download_happening = True
 
         # see if the number of files in the download directory has increased from 0 to 1
         num_of_files = len( [ name for name in os.listdir(location_download) ] )
@@ -280,22 +320,10 @@ if 1:
 
         if num_of_files == 1: # we need to move this file which is in the download directory into the working directory with all the other files
             # We need to wait for the file to fully download i.e. for the file extension to stop being .tmp
-            download_file_name_extension = "tmp"
-            while download_file_name_extension == "tmp":
-                download_file_name = os.listdir(location_download)
-                print("while loop is running")
-##                pri(download_file_name, "download_file_name")
-                
-                download_file_name = download_file_name[0]
-##                pri(download_file_name, "download_file_name")
-                
-                download_file_name_split = download_file_name.split(".")
-##                pri(download_file_name_split, "download_file_name_split")
+            print("\n check 2")
+            (download_file_name, download_file_name_split) = wait_for_download(location_download)
 
-                download_file_name_extension = download_file_name_split[1]
-
-            print("\n out of while loop")
-            pri(download_file_name, "download_file_name")
+            print("\n finished waiting for download")
             pri(download_file_name, "download_file_name")
             pri(download_file_name_split, "download_file_name_split")
 
@@ -303,7 +331,7 @@ if 1:
 
             # get just the name of the file which blackboard gives this file (don't include the file extension)
             just_name = file_name.replace(".pdf", "")
-##            pri(just_name, "just_name")
+            pri(just_name, "just_name")
 
             just_name_count = just_name
 
@@ -314,8 +342,8 @@ if 1:
                         # But change the name to what blackboard gives the file while keeping the file extension the same as what it was when it was in the download
                         # directory.
 
-##                    os.rename(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
-                    copyfile(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
+                    os.rename(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
+##                    copyfile(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
                     break
                 else:
                     # Append a number to the file name if there is already a version of the file present.
