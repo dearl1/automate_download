@@ -59,7 +59,7 @@ def make_location_directory(soup):
 
 # function to empty the download directory
 def empty_download_dir():
-    print("\n starting function: empty_download_dir")
+##    print("\n starting function: empty_download_dir")
     # make a download directory in the computer if it doesn't exist already
     
     location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\download"
@@ -74,7 +74,7 @@ def empty_download_dir():
     else:
         print("Error. You tried to empty a directory which doesn't exist.")
 
-    print("\n finished function: empty_download_dir")
+##    print("\n finished function: empty_download_dir")
 
 # end of: function to empty the download directory
 
@@ -91,7 +91,7 @@ def wait_for_download(location_download):
         
         download_file_name = download_file_name[0]
         
-        download_file_name_split = download_file_name.split(".") # from here fix: 'dates have dots'
+        download_file_name_split = download_file_name.split(".")
 
         download_file_name_extension = download_file_name_split[-1]
 
@@ -340,7 +340,7 @@ if 1:
 if 1:
     print("\n\n   Starting: download files")
 
-    for file_count in range(8, len(files)): # for file_count in [1]: # for file_count in range(len(files)):
+    for file_count in range(len(files)): # for file_count in [1]: # for file_count in range(len(files)):
 
         file = files[file_count]
 
@@ -348,6 +348,20 @@ if 1:
         file_href = file[0]
 
         pri(file_name, "file_name")
+
+
+        file_name_split = file_name.split(".")
+##        pri(file_name_split, "file_name_split")
+
+        just_file_name = file_name_split[0]
+        # join the split up name except for the last bit which is the file extension
+        for bit in range(len(file_name_split)-2):
+            # add back in the dots which are in the file name
+            just_file_name = f"{just_file_name}.{file_name_split[bit+1]}"
+        
+        just_file_name_count = just_file_name
+        file_extension = file_name_split[-1]
+        
 
         # empty the download directory because we want to work from a clean slate
         empty_download_dir()
@@ -363,48 +377,31 @@ if 1:
             # We need to wait for the file to fully download i.e. for the file extension to stop being .tmp
 ##            print("\n check 2")
             (download_file_name, download_file_name_split) = wait_for_download(location_download)
-            print("\n finished waiting for download")
+##            print("\n finished waiting for download")
             
-            pri(download_file_name, "download_file_name")
-            pri(download_file_name_split, "download_file_name_split")
-                
-
-            # get just the name of the file which blackboard gives this file (don't include the file extension)
-            just_name = file_name.replace(".pdf", "")
-            pri(just_name, "just_name")
-
-            just_name_count = just_name
+##            pri(download_file_name, "download_file_name")
+##            pri(download_file_name_split, "download_file_name_split")
+            
 
             count = 1
             while 1:
-                if not os.path.exists( f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}" ): # If the file doesn't already exist then:
+                if not os.path.exists( f"{location_directory}\\{just_file_name_count}.{download_file_name_split[-1]}" ): # If the file doesn't already exist then:
                     # Move the file which is in the download directory into the working directory.
                         # But change the name to what blackboard gives the file while keeping the file extension the same as what it was when it was in the download
                         # directory.
 
-                    os.rename(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
+                    os.rename(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_file_name_count}.{download_file_name_split[-1]}")
 ##                    copyfile(f"{location_download}\\{download_file_name}", f"{location_directory}\\{just_name_count}.{download_file_name_split[1]}")
                     break
                 else:
                     # Append a number to the file name if there is already a version of the file present.
-                    just_name_count = f"{just_name} ({count})"
+                    just_file_name_count = f"{just_file_name} ({count})"
                     count += 1
                     
         else: # nothing went into the download directory so we need to get the url and download manually to the working directory
         
             url_now = driver.current_url # get the url
             r = requests.get(url_now, allow_redirects=True)
-
-            file_name_split = file_name.split(".")
-            pri(file_name_split, "file_name_split")
-
-            just_file_name = ""
-            # join the split up name except for the last bit which is the file extension
-            for bit in range(len(file_name_split)-1):
-                just_file_name = f"{just_file_name}{file_name_split[bit]}"
-            
-            just_file_name_count = just_file_name
-            file_extension = file_name_split[-1]
 
             count = 1
             while 1:
