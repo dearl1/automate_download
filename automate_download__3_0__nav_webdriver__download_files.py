@@ -116,7 +116,10 @@ def wait_for_download(location_download):
 ##pri(r, "r")
 
 # flight dynamics/lecture notes
-url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2050170_1'
+##url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2050170_1'
+
+# Dr Kovac/Dr Kovac/
+url = "https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_18488_1&content_id=_1689465_1"
 
 # flight dynamics/lecture notes/in-class notes
 ##url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1'
@@ -185,11 +188,11 @@ if 0:
     import pickle
 
     # write to file
-    ##with open('html_data.pickle', 'wb') as my_file:
-    ##	pickle.dump([html], my_file)
+##    with open('html_data.pickle', 'wb') as my_file:
+##    	pickle.dump([html], my_file)
 
     # read from file
-    with open('html_of_lctn__flightDyn_lecNotes.pickle', 'rb') as my_file:
+    with open('html_of_lctn_kovac_kovac.pickle', 'rb') as my_file:
         [html] = pickle.load(my_file)
 
     ##print("\n   html ...")
@@ -204,7 +207,7 @@ if 1:
 
     anchor_tags = soup.find_all("a")
 
-    for index in range(len(anchor_tags)):
+    for index in range(len(anchor_tags)): # for index in range(len(anchor_tags)):
         anchor = anchor_tags[index]
 
         # try to get href
@@ -218,18 +221,59 @@ if 1:
         # try to get text of contents
         try:
             text = anchor.contents[0].text
+            if len(text) == 0:
+                text = anchor.contents[1]
         except:
             text = None
 
         # add the current anchor tag to the files list if it's a file
         if href != None:
             if "xid" in href: # It's a file
+##                pri(anchor_tags[index], "anchor_tags[index]")
+##                print()
+                
                 if text == None: # It's of the phugoid type
+##                    print("\n check 1")
                     files.append([href, contents_0])
-                else: # It's not of the phugoid type
+##                    pri(index, "index")
+##                    pri([href, contents_0], "[href, contents_0]")
+                    
+                elif text != None:
+##                    print("\n check 2")
+##                    pri(text, "text")
+##                    print(f"text: {text}")
+##                    pri([href, str(text)], "[href, str(text)]")
+                    
+##                    test_list = [""]
+##                    test_list[0] = text
+##                    pri(test_list, "test_list")
+##                    pri(test_list[0], "test_list[0]")
+                    
                     files.append([href, text])
+##                    pri(index, "index")
+##                    pri([href, text], "[href, text]")
+##                    pri(text, "text")
+                    
+                else: # It's not of the phugoid type
+##                    print("\n check 3")
+                    files.append([href, text])
+##                    pri(index, "index")
+##                    pri(contents_0, "contents_0")                
+##                    pri([href, text], "[href, text]")
+##
+##                    pri(anchor.contents[1], "anchor.contents[1]")
 
 ##    pri(files, "files")
+
+##    print("\n\n Outputting what files we have found")
+##    for index in range(len(files)):
+##        print(f"   index: {index}")
+##        print(files[index])
+##        print()
+
+##    print(files[9][1])
+
+
 
 
 # check if file types (e.g. ".mp4") are in the file names
