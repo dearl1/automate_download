@@ -74,6 +74,8 @@ def empty_download_dir():
     else:
         print("Error. You tried to empty a directory which doesn't exist.")
 
+    print("\n finished function: empty_download_dir")
+
 # end of: function to empty the download directory
 
 
@@ -273,23 +275,11 @@ if 1:
         os.makedirs(location_directory)
 
 
-##    # set download directory in the webdriver
-##    chromeOptions = webdriver.ChromeOptions()
-##    prefs = {"download.default_directory" : location_directory}
-##    chromeOptions.add_experimental_option("prefs",prefs)
-##    chromedriver = "C:\\Users\danny\Downloads\chromedriver_win32\chromedriver.exe"
-##    driver = webdriver.Chrome(executable_path = chromedriver, options = chromeOptions)
-##
-##    driver.get(url) # open the flight dynamics/lecture notes blackboard location again
-##
-##    continue_code = input("\n\n Type anything and press enter once you have entered your credentials to continue: ")
-
 # download the files in the current blackboard location
-download_happening = False
 if 1:
     print("\n\n   Starting: download files")
 
-    for file_count in [1]: # for file_count in [1]: # for file_count in range(len(files)):
+    for file_count in range(len(files)): # for file_count in [1]: # for file_count in range(len(files)):
 
         file = files[file_count]
 
@@ -299,20 +289,10 @@ if 1:
         pri(file_name, "file_name")
 
         # empty the download directory because we want to work from a clean slate
-        # first we need to wait for any files that are downloading to stop having the extension "tmp"
-##        print("\n before wait for download")
-        
-##        if download_happening == True:
-##            print("\n check 1")
-##            (download_file_name, download_file_name_split) = wait_for_download(location_download)
-##            download_happening = False
-            
-##        print("\n after wait for download")
         empty_download_dir()
         
         # open the file
         driver.get(file_href)
-        download_happening = True
 
         # see if the number of files in the download directory has increased from 0 to 1
         num_of_files = len( [ name for name in os.listdir(location_download) ] )
@@ -320,10 +300,10 @@ if 1:
 
         if num_of_files == 1: # we need to move this file which is in the download directory into the working directory with all the other files
             # We need to wait for the file to fully download i.e. for the file extension to stop being .tmp
-            print("\n check 2")
+##            print("\n check 2")
             (download_file_name, download_file_name_split) = wait_for_download(location_download)
-
             print("\n finished waiting for download")
+            
             pri(download_file_name, "download_file_name")
             pri(download_file_name_split, "download_file_name_split")
 
