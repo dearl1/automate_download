@@ -85,18 +85,13 @@ def wait_for_download(location_download):
     
     while download_file_name_extension == "tmp" or download_file_name_extension == "crdownload":
         download_file_name = os.listdir(location_download)
-##        print("while loop is running")
-
-##        if len(download_file_name) == 0: # if there is nothing downloading into the download directory then we don't need to wait for anything
-##            return ("nothing downloading", "nothing downloading")
 
         if len(download_file_name) == 0:
-            pri(len(download_file_name), "len(download_file_name)")
             continue # wait a bit for the download to actually start
         
         download_file_name = download_file_name[0]
         
-        download_file_name_split = download_file_name.split(".")
+        download_file_name_split = download_file_name.split(".") # from here fix: 'dates have dots'
 
         download_file_name_extension = download_file_name_split[-1]
 
@@ -282,9 +277,31 @@ if 1:
     
     for file in files:
         if "." not in file[1]:
-##            print(f"{file[1]} does not have a dot")
             # put ".pdf" on the end of file names that don't have a dot
             file[1] = "".join([file[1], ".pdf"])
+
+        if ".pdf" in file[1]:
+            continue # if there is a pdf extension then we can go to the next file instance
+            
+        if file[1].count(".") > 1:
+            # ask the user if we should add a .pdf extension
+            while 1:
+                try:
+                    print(f"\nType y or n to choose whether we should add a \".pdf\" extension to this file name: {file[1]}")
+                    add_extension = input("Type y or n: ")
+                    add_extension = add_extension.upper()
+                    
+                    if add_extension in ["Y", "N"]:
+                        # the user entered a valid choice so we can exit the while loop
+                        break
+                    else:
+                        print("\nWhat you typed was invalid")
+                except:
+                    print("\nAn error of some kind ocurred. Please try again.")
+
+            if add_extension == "Y":
+                # put ".pdf" on the end of file names that don't have a dot
+                file[1] = "".join([file[1], ".pdf"])
 
 
     
@@ -323,7 +340,7 @@ if 1:
 if 1:
     print("\n\n   Starting: download files")
 
-    for file_count in range(len(files)): # for file_count in [1]: # for file_count in range(len(files)):
+    for file_count in range(8, len(files)): # for file_count in [1]: # for file_count in range(len(files)):
 
         file = files[file_count]
 
@@ -380,6 +397,7 @@ if 1:
             r = requests.get(url_now, allow_redirects=True)
 
             file_name_split = file_name.split(".")
+            pri(file_name_split, "file_name_split")
             just_file_name = file_name_split[0]
             
             just_file_name_count = just_file_name
