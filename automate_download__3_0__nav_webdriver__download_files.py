@@ -367,7 +367,6 @@ if 1:
             
             pri(download_file_name, "download_file_name")
             pri(download_file_name_split, "download_file_name_split")
-
                 
 
             # get just the name of the file which blackboard gives this file (don't include the file extension)
@@ -398,10 +397,14 @@ if 1:
 
             file_name_split = file_name.split(".")
             pri(file_name_split, "file_name_split")
-            just_file_name = file_name_split[0]
+
+            just_file_name = ""
+            # join the split up name except for the last bit which is the file extension
+            for bit in range(len(file_name_split)-1):
+                just_file_name = f"{just_file_name}{file_name_split[bit]}"
             
             just_file_name_count = just_file_name
-            file_extension = file_name_split[1]
+            file_extension = file_name_split[-1]
 
             count = 1
             while 1:
