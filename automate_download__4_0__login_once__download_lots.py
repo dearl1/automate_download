@@ -161,7 +161,11 @@ if 1:
 
 
 # run the code forever until the user quits
+user_location = None
 while 1:
+
+    if user_location != None:
+        driver.get(user_location) # go back to the location in blackboard where the user last was
     
     # allow the user to go to the place they want to download files from
     print("\n\nNavigate to the location from which you want to download files.")
@@ -185,6 +189,8 @@ while 1:
         break
 
     html = driver.page_source # get the html so we can find the names and hrefs of the files that need to be downloaded
+
+    user_location = driver.current_url # save where the user has navigated to
 
 
     # get hrefs of files in current blackboard location
