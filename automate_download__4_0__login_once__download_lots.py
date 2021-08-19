@@ -1,4 +1,8 @@
 
+# change the username that is inputted to the webdriver
+# change the root_location_directory
+# change the location_download in 2 places if you want to but it's only used temporarily and released at the end of the code so you don't need to change this
+
 import requests
 import selenium
 from lxml import html
@@ -48,7 +52,7 @@ def make_location_directory(soup):
     location_directory = "\\".join(crumb_names)
 ##    pri(location_directory, "location_directory")
 
-    root_location_directory = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download"
+    root_location_directory = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\Michal"
     location_directory = "\\".join([root_location_directory, location_directory])
 ##    pri(location_directory, "location_directory")
 
@@ -153,7 +157,7 @@ if 1:
 
     # put in de219
     inputElement = driver.find_element_by_id("username")
-    inputElement.send_keys('de219')
+    inputElement.send_keys('mw4617')
 
     # click into password box
     inputElement = driver.find_element_by_id("password")
