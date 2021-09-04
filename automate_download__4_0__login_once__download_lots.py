@@ -1,5 +1,5 @@
 
-# change the username that is inputted to the webdriver
+# change the user_name variable that is inputted to the webdriver
 # change the root_location_directory
 # change the location_download in 2 places if you want to but it's only used temporarily and released at the end of the code so you don't need to change this
 
@@ -52,7 +52,7 @@ def make_location_directory(soup):
     location_directory = "\\".join(crumb_names)
 ##    pri(location_directory, "location_directory")
 
-    root_location_directory = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\Michal"
+    root_location_directory = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download"
     location_directory = "\\".join([root_location_directory, location_directory])
 ##    pri(location_directory, "location_directory")
 
@@ -110,31 +110,6 @@ def wait_for_download(location_download):
 # main blackboard page
 url = "https://bb.imperial.ac.uk/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_1_1"
 
-##url = "https://bb.imperial.ac.uk/bbcswebdav/pid-2071661-dt-content-rid-8358309_1/xid-8358309_1"
-##r = requests.get(url, allow_redirects=True)
-##pri(r, "r")
-
-# flight dynamics/lecture notes
-##url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2050170_1'
-
-# Dr Kovac/Dr Kovac/
-##url = "https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_18488_1&content_id=_1689465_1"
-
-# flight dynamics/lecture notes/in-class notes
-##url = 'https://bb.imperial.ac.uk/webapps/blackboard/content/listContent.jsp?course_id=_23856_1&content_id=_2071657_1'
-
-# handwritten notes pdf
-##url = 'https://learn-eu-central-1-prod-fleet01-xythos.content.blackboardcdn.com/60faa9080242d/4435255?X-Blackboard-Expiration=1628726400000&X-Blackboard-Signature=7D4WUes2X7NMv9rbNz4Dg%2Fl1r6TNCIWBIWzfEcI0je4%3D&X-Blackboard-Client-Id=309628&response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27Flight%2520Dynamics%2520notes.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210811T180000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PL5M5HI5WH%2F20210811%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=73b50d4b8526ae88884c8e72f3c0648bcf3a173d850e764e71a20d4f0e18bbb7'
-
-# handwritten notes pdf url opened at approx 2021_08_14
-##https://learn-eu-central-1-prod-fleet01-xythos.content.blackboardcdn.com/60faa9080242d/4435255?X-Blackboard-Expiration=1628964000000&X-Blackboard-Signature=%2Fh%2B4AvXcIycUGWBAWZhUlysvJSjO1o5%2F0PDViphN5fA%3D&X-Blackboard-Client-Id=309628&response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27Flight%2520Dynamics%2520notes.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210814T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PL5M5HI5WH%2F20210814%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=8cb7bc2773bfb72d61fd7f35059f6a0e2bed88de46d154b0ec8be77763d01a34
-# Ch 1-7 - Annotated pdf url opened at approx 2021_08_14
-##https://learn-eu-central-1-prod-fleet01-xythos.content.blackboardcdn.com/60faa9080242d/4521639?X-Blackboard-Expiration=1628964000000&X-Blackboard-Signature=iSZupkWaThoJ%2B9BFI8LEI1swYKzucDS%2Fx3WhJVs2fZs%3D&X-Blackboard-Client-Id=309628&response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27Flight%2520Dynamics%2520%2526%2520Control%2520-%25202021%2520-%2520ch%25201-7%2520annotated.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210814T120000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PL5M5HI5WH%2F20210814%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=be8faa624168fbdb53a9b5788259a00bf12be87c51f2d69eabec3529fb7a612f
-
-# all flight dyn notes pdf
-##url = 'https://learn-eu-central-1-prod-fleet01-xythos.content.blackboardcdn.com/60faa9080242d/4546262?X-Blackboard-Expiration=1628726400000&X-Blackboard-Signature=1qtS10B28NfSGAbyo397yy8RSTKoMRBmB4Eamq0Yca4%3D&X-Blackboard-Client-Id=309628&response-cache-control=private%2C%20max-age%3D21600&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27Flight%2520Dynamics%2520%2526%2520Control%2520-%25202020-21%25282%2529.pdf&response-content-type=application%2Fpdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210811T180000Z&X-Amz-SignedHeaders=host&X-Amz-Expires=21600&X-Amz-Credential=AKIAZH6WM4PL5M5HI5WH%2F20210811%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Signature=0b3f5766567effd8b7194bb73cf9b029e04af2c86b83120ae114a7fdb07c2f39'
-
-
 if 1:
     # make a download directory in the computer if it doesn't exist already
     location_download = "C:\\Users\\danny\\Documents\\1 - Not backed up to external hard drive yet\\automate_download\\download"
@@ -155,9 +130,10 @@ if 1:
 
     driver.get(url) # open the blackboard location
 
-    # put in de219
+    # enter user_name to the webpage
+    user_name = 'de219'
     inputElement = driver.find_element_by_id("username")
-    inputElement.send_keys('mw4617')
+    inputElement.send_keys(user_name)
 
     # click into password box
     inputElement = driver.find_element_by_id("password")
